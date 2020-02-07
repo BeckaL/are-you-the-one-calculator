@@ -23,11 +23,7 @@ class Season():
 
 
 def count_shared(scenario_1, scenario_2):
-    count = 0
-    for couple in scenario_1:
-        if couple in scenario_2:
-            count += 1
-    return count
+    return sum(map(lambda couple: 1 if couple in scenario_2 else 0, list(scenario_1)))
 
 
 season = Season(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])

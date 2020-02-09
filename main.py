@@ -8,6 +8,16 @@ def main():
     season = Season(*names)
     display_scenarios(season)
     display_probabilities(season, *names)
+    updated_season = add_truth_booth(season)
+    display_scenarios(updated_season)
+    display_probabilities(updated_season, *names)
+
+def add_truth_booth(season):
+    couple = tuple(input("Enter couple: ").split(","))
+    raw_result = input("Enter result (type 't' for true or 'f' for false): " )
+    result = True if raw_result == "t" else False
+    new_possibilities = season.register_truth_booth(couple, result)
+    return Season(season.women, season.men, new_possibilities)
 
 
 def get_name_input():
@@ -21,7 +31,6 @@ def get_name_input():
 def display_scenarios(season):
     print("scenarios are")
     print(format_scenarios(season.scenarios))
-
 
 def display_probabilities(season, women, men):
     probabilities_calculator = ProbabilityCalculator(season.createPossiblePairings(), season.scenarios)

@@ -37,5 +37,3 @@ def check():
     f = Formatter(probabilities_hash, women, men)
     grid = f.printable_grid()
     print(grid)
-
-check()

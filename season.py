@@ -1,10 +1,10 @@
 import itertools
 
 class Season():
-    def __init__(self, women, men):
+    def __init__(self, women, men, scenarios = None):
         self.women = women
         self.men = men
-        self.scenarios = self.create_scenarios()
+        self.scenarios = scenarios or self.create_scenarios()
 
     def createPossiblePairings(self):
         return itertools.product(self.women, self.men)
@@ -13,13 +13,13 @@ class Season():
         return [set(zip(woman, self.men)) for woman in itertools.permutations(self.women, len(self.men))]
 
     def register_guess(self, guess, noCorrect):
-        return list(filter(lambda x: count_shared(x, guess) == noCorrect, self.scenarios))
+        return [scenario for scenario in self.scenarios if count_shared(scenario, guess) == noCorrect]
 
     def register_truth_booth(self, couple, correct):
         if correct:
-            return list(filter(lambda scenario: couple in scenario, self.scenarios))
+            return [scenario for scenario in self.scenarios if  couple in scenario]
         else:
-            return list(filter(lambda scenario: couple not in scenario, self.scenarios))
+            return [scenario for scenario in self.scenarios if couple not in scenario]
 
 
 def count_shared(scenario_1, scenario_2):

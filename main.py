@@ -2,21 +2,54 @@ from season import *
 from season_probabilities import *
 from probability_formatter import *
 
+
 def main():
     welcome()
+    season = create_season()
+    run(season, season.women, season.men)
+
+def create_season():
     names = get_name_input()
     season = Season(*names)
     display_scenarios(season)
     display_probabilities(season, *names)
-    updated_season = add_truth_booth(season)
-    display_scenarios(updated_season)
-    display_probabilities(updated_season, *names)
+    return season
+
+
+def run(season, women, men):
+    action = choose_action()
+    while action != quit:
+        updated_season = action(season)
+        display_scenarios(season)
+        display_probabilities(season, women, men)
+        return run(updated_season, women, men)
+    quit()
+
+
+def choose_action():
+    action_int = int(input("Choose action: press 1 for adding a truth booth or 2 for adding a weekly guess. press anything else to quit: "))
+    if action_int == 1:
+        return add_truth_booth
+    elif action_int == 2:
+        return add_weekly_guess
+    else:
+        return quit
+
+def quit():
+    print("goodbye")
 
 def add_truth_booth(season):
     couple = tuple(input("Enter couple: ").split(","))
     raw_result = input("Enter result (type 't' for true or 'f' for false): " )
     result = True if raw_result == "t" else False
     new_possibilities = season.register_truth_booth(couple, result)
+    return Season(season.women, season.men, new_possibilities)
+
+
+def add_weekly_guess(season):
+    couples = {(woman, input("Enter partner for {w}".format(w=woman))) for woman in season.women}
+    no_correct = int(input("How many couples are correct? \n" ))
+    new_possibilities = season.register_guess(couples, no_correct)
     return Season(season.women, season.men, new_possibilities)
 
 
@@ -31,6 +64,7 @@ def get_name_input():
 def display_scenarios(season):
     print("scenarios are")
     print(format_scenarios(season.scenarios))
+
 
 def display_probabilities(season, women, men):
     probabilities_calculator = ProbabilityCalculator(season.createPossiblePairings(), season.scenarios)

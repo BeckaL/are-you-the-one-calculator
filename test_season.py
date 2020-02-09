@@ -84,12 +84,4 @@ def test_registers_a_true_truth_booth():
 
 
 def check_scenario_equality(actual, expected):
-    counter = 0
-    for el in actual:
-        print(el)
-        if el in expected:
-            counter += 1
-    if counter == len(expected):
-        return True
-    else:
-        return False
+    return len([el for el in actual if el in expected]) == len(expected)

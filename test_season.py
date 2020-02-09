@@ -31,10 +31,12 @@ def test_registers_a_guess_for_a_3_couple_scenario():
     season = Season(["A", "B", "C"], ["X", "Y", "Z"])
     guess = {("A", "X"), ("B", "Y"), ("C", "Z")}
     correct = 1
+
     expected = [
         {("A", "X"), ("B", "Z"), ("C", "Y")},
         {("A", "Y"), ("B", "X"), ("C", "Z")},
         {("A", "Z"), ("B", "Y"), ("C", "X")}]
+    
     new_scenarios = season.register_guess(guess, correct)
     assert check_scenario_equality(new_scenarios, expected)
 
@@ -43,34 +45,36 @@ def test_registers_a_guess_for_a_4_couple_scenario():
     season = Season(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
     guess = {("A", "X"), ("B", "Y"), ("C", "Z"), ("D", "W")}
     correct = 2
+
     expected = [
         {('C', 'W'), ('A', 'X'), ('D', 'Z'), ('B', 'Y')},
         {('C', 'Y'), ('B', 'Z'), ('A', 'X'), ('D', 'W')},
         {('C', 'Z'), ('A', 'X'), ('D', 'Y'), ('B', 'W')},
         {('A', 'Z'), ('D', 'W'), ('C', 'X'), ('B', 'Y')},
     ]
+
     new_scenarios = season.register_guess(guess, correct)
     assert check_scenario_equality(new_scenarios, expected)
 
 
 def test_registers_a_false_truth_booth():
     season = Season(["A", "B", "C"], ["X", "Y", "Z"])
-    couple_guess = ("A", "X")
-    correct = False
+    new_scenarios = season.register_truth_booth(("A", "X"), correct=False)
+
     expected = [
         {("A", "Y"), ("B", "X"), ("C", "Z")},
         {("A", "Y"), ("B", "Z"), ("C", "X")},
         {("A", "Z"), ("B", "X"), ("C", "Y")},
         {("A", "Z"), ("B", "Y"), ("C", "X")}
     ]
-    new_scenarios = season.register_truth_booth(couple_guess, correct)
+
     assert check_scenario_equality(new_scenarios, expected)
 
 
 def test_registers_a_true_truth_booth():
     season = Season(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
-    couple_guess = ("A", "X")
-    correct = True
+    new_scenarios = season.register_truth_booth(("A", "X"), correct=True)
+
     expected = [
         {('D', 'W'), ('C', 'Z'), ('A', 'X'), ('B', 'Y')},
         {('D', 'Z'), ('C', 'W'), ('A', 'X'), ('B', 'Y')},
@@ -79,7 +83,7 @@ def test_registers_a_true_truth_booth():
         {('B', 'Z'), ('D', 'Y'), ('C', 'W'), ('A', 'X')},
         {('D', 'Y'), ('C', 'Z'), ('A', 'X'), ('B', 'W')}
     ]
-    new_scenarios = season.register_truth_booth(couple_guess, correct)
+
     assert check_scenario_equality(new_scenarios, expected)
 
 

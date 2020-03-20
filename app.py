@@ -14,7 +14,7 @@ class App():
 
     def create_season(self):
         names = self.get_name_input()
-        season = Season(*names)
+        season = StraightSeason(*names)
         self.display_scenarios(season)
         self.display_probabilities(season, *names)
         return season
@@ -47,13 +47,13 @@ class App():
         raw_result = self.input_output.input("Enter result (type 't' for true or 'f' for false): ")
         result = True if raw_result == "t" else False
         new_possibilities = season.register_truth_booth(couple, result)
-        return Season(season.women, season.men, new_possibilities)
+        return StraightSeason(season.women, season.men, new_possibilities)
 
     def add_weekly_guess(self, season):
         couples = {(woman, self.input_output.input("Enter partner for {w}".format(w=woman))) for woman in season.women}
         no_correct = int(self.input_output.input("How many couples are correct? \n"))
         new_possibilities = season.register_guess(couples, no_correct)
-        return Season(season.women, season.men, new_possibilities)
+        return StraightSeason(season.women, season.men, new_possibilities)
 
     def get_name_input(self):
         raw_women = self.input_output.input("enter the names of the women: \n").split(",")
@@ -67,7 +67,7 @@ class App():
         self.input_output.print(self.format_scenarios(season.scenarios))
 
     def display_probabilities(self, season, women, men):
-        probabilities_calculator = ProbabilityCalculator(season.createPossiblePairings(), season.scenarios)
+        probabilities_calculator = ProbabilityCalculator(season.create_possible_pairings(), season.scenarios)
         hash = probabilities_calculator.calculate()
         formatter = Formatter(hash, women, men)
         self.input_output.print(formatter.printable_grid())

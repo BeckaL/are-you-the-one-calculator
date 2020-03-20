@@ -1,17 +1,15 @@
 import itertools
+from abc import ABC, abstractmethod
 
+class Season(ABC):
 
-class Season():
-    def __init__(self, women, men, scenarios=None):
-        self.women = women
-        self.men = men
-        self.scenarios = scenarios or self.create_scenarios()
-
-    def createPossiblePairings(self):
-        return itertools.product(self.women, self.men)
-
+    @abstractmethod
     def create_scenarios(self):
-        return [set(zip(woman, self.men)) for woman in itertools.permutations(self.women, len(self.men))]
+        pass
+
+    @abstractmethod
+    def create_possible_pairings(self):
+        pass
 
     def register_guess(self, guess, noCorrect):
         return [scenario for scenario in self.scenarios if count_shared(scenario, guess) == noCorrect]
@@ -22,12 +20,24 @@ class Season():
         else:
             return [scenario for scenario in self.scenarios if couple not in scenario]
 
+class StraightSeason(Season):
+    def __init__(self, women, men, scenarios=None):
+        self.women = women
+        self.men = men
+        self.scenarios = scenarios or self.create_scenarios()
+
+    def create_possible_pairings(self):
+        return itertools.product(self.women, self.men)
+
+    def create_scenarios(self):
+        return [set(zip(woman, self.men)) for woman in itertools.permutations(self.women, len(self.men))]
+
 
 def count_shared(scenario_1, scenario_2):
     return sum(map(lambda couple: 1 if couple in scenario_2 else 0, list(scenario_1)))
 
 
-class BisexualSeason():
+class BisexualSeason(Season):
     def __init__(self, contestants, scenarios = []):
         self.contestants = contestants
         self.scenarios = scenarios or self.create_scenarios()
@@ -44,3 +54,6 @@ class BisexualSeason():
 
     def create_scenarios(self):
         return list(set(l) for l in self.all_pairs(self.contestants))
+
+    def create_possible_pairings(self):
+        pass

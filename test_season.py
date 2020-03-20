@@ -2,15 +2,15 @@ from season import *
 
 
 def test_creates_all_possible_pairings():
-    season = Season(["A", "B", "C"], ["X", "Y", "Z"])
+    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
     expected_pairings = [("A", "X"), ("A", "Y"), ("A", "Z"),
                          ("B", "X"), ("B", "Y"), ("B", "Z"),
                          ("C", "X"), ("C", "Y"), ("C", "Z")]
-    assert sorted(season.createPossiblePairings()) == sorted(expected_pairings)
+    assert sorted(season.create_possible_pairings()) == sorted(expected_pairings)
 
 
 def test_creates_all_scenarios():
-    season = Season(["A", "B", "C"], ["X", "Y", "Z"])
+    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
     expected = [
         {("A", "X"), ("B", "Y"), ("C", "Z")},
         {("A", "X"), ("B", "Z"), ("C", "Y")},
@@ -22,7 +22,7 @@ def test_creates_all_scenarios():
 
 
 def test_registers_a_guess_for_a_3_couple_scenario():
-    season = Season(["A", "B", "C"], ["X", "Y", "Z"])
+    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
     guess = {("A", "X"), ("B", "Y"), ("C", "Z")}
     correct = 1
 
@@ -36,7 +36,7 @@ def test_registers_a_guess_for_a_3_couple_scenario():
 
 
 def test_registers_a_guess_for_a_4_couple_scenario():
-    season = Season(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
+    season = StraightSeason(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
     guess = {("A", "X"), ("B", "Y"), ("C", "Z"), ("D", "W")}
     correct = 2
 
@@ -52,7 +52,7 @@ def test_registers_a_guess_for_a_4_couple_scenario():
 
 
 def test_registers_a_false_truth_booth():
-    season = Season(["A", "B", "C"], ["X", "Y", "Z"])
+    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
     new_scenarios = season.register_truth_booth(("A", "X"), correct=False)
 
     expected = [
@@ -66,7 +66,7 @@ def test_registers_a_false_truth_booth():
 
 
 def test_registers_a_true_truth_booth():
-    season = Season(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
+    season = StraightSeason(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
     new_scenarios = season.register_truth_booth(("A", "X"), correct=True)
 
     expected = [
@@ -83,12 +83,13 @@ def test_registers_a_true_truth_booth():
 
 def test_creates_a_bisexual_season():
     season = BisexualSeason(["A", "B", "C", "D"])
+    actual = season.scenarios
     expected = [
         {('A', 'B'), ('C', 'D')},
         {('A', 'C'), ('B', 'D')},
         {('A', 'D'), ('B', 'C')}
     ]
-    assert(check_scenario_equality(season.scenarios, expected))
+    assert(check_scenario_equality(actual, expected))
 
 def check_scenario_equality(actual, expected):
     return len([el for el in actual if el in expected]) == len(expected)

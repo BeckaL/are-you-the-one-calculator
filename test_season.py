@@ -21,12 +21,6 @@ def test_creates_all_scenarios():
     assert check_scenario_equality(season.scenarios, expected)
 
 
-# def test_creates_a_larger_scenario():
-#     season = Season(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-#     expected_len = 3628800
-#     assert len(season.scenarios) == expected_len
-
-
 def test_registers_a_guess_for_a_3_couple_scenario():
     season = Season(["A", "B", "C"], ["X", "Y", "Z"])
     guess = {("A", "X"), ("B", "Y"), ("C", "Z")}
@@ -86,6 +80,15 @@ def test_registers_a_true_truth_booth():
 
     assert check_scenario_equality(new_scenarios, expected)
 
+
+def test_creates_a_bisexual_season():
+    season = BisexualSeason(["A", "B", "C", "D"])
+    expected = [
+        {('A', 'B'), ('C', 'D')},
+        {('A', 'C'), ('B', 'D')},
+        {('A', 'D'), ('B', 'C')}
+    ]
+    assert(check_scenario_equality(season.scenarios, expected))
 
 def check_scenario_equality(actual, expected):
     return len([el for el in actual if el in expected]) == len(expected)

@@ -56,4 +56,4 @@ class BisexualSeason(Season):
         return list(set(l) for l in self.all_pairs(self.contestants))
 
     def create_possible_pairings(self):
-        pass
+        return itertools.combinations(self.contestants, 2)

@@ -2,42 +2,42 @@ from season import *
 
 
 def test_creates_all_possible_pairings():
-    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
-    expected_pairings = [("A", "X"), ("A", "Y"), ("A", "Z"),
-                         ("B", "X"), ("B", "Y"), ("B", "Z"),
-                         ("C", "X"), ("C", "Y"), ("C", "Z")]
+    season = StraightSeason(['A', 'B', 'C'], ['X', 'Y', 'Z'])
+    expected_pairings = [('A', 'X'), ('A', 'Y'), ('A', 'Z'),
+                         ('B', 'X'), ('B', 'Y'), ('B', 'Z'),
+                         ('C', 'X'), ('C', 'Y'), ('C', 'Z')]
     assert sorted(season.create_possible_pairings()) == sorted(expected_pairings)
 
 
 def test_creates_all_scenarios():
-    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
+    season = StraightSeason(['A', 'B', 'C'], ['X', 'Y', 'Z'])
     expected = [
-        {("A", "X"), ("B", "Y"), ("C", "Z")},
-        {("A", "X"), ("B", "Z"), ("C", "Y")},
-        {("A", "Y"), ("B", "X"), ("C", "Z")},
-        {("A", "Y"), ("B", "Z"), ("C", "X")},
-        {("A", "Z"), ("B", "X"), ("C", "Y")},
-        {("A", "Z"), ("B", "Y"), ("C", "X")}]
+        {('A', 'X'), ('B', 'Y'), ('C', 'Z')},
+        {('A', 'X'), ('B', 'Z'), ('C', 'Y')},
+        {('A', 'Y'), ('B', 'X'), ('C', 'Z')},
+        {('A', 'Y'), ('B', 'Z'), ('C', 'X')},
+        {('A', 'Z'), ('B', 'X'), ('C', 'Y')},
+        {('A', 'Z'), ('B', 'Y'), ('C', 'X')}]
     assert check_scenario_equality(season.scenarios, expected)
 
 
 def test_registers_a_guess_for_a_3_couple_scenario():
-    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
-    guess = {("A", "X"), ("B", "Y"), ("C", "Z")}
+    season = StraightSeason(['A', 'B', 'C'], ['X', 'Y', 'Z'])
+    guess = {('A', 'X'), ('B', 'Y'), ('C', 'Z')}
     correct = 1
 
     expected = [
-        {("A", "X"), ("B", "Z"), ("C", "Y")},
-        {("A", "Y"), ("B", "X"), ("C", "Z")},
-        {("A", "Z"), ("B", "Y"), ("C", "X")}]
+        {('A', 'X'), ('B', 'Z'), ('C', 'Y')},
+        {('A', 'Y'), ('B', 'X'), ('C', 'Z')},
+        {('A', 'Z'), ('B', 'Y'), ('C', 'X')}]
     
     new_scenarios = season.register_guess(guess, correct)
     assert check_scenario_equality(new_scenarios, expected)
 
 
 def test_registers_a_guess_for_a_4_couple_scenario():
-    season = StraightSeason(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
-    guess = {("A", "X"), ("B", "Y"), ("C", "Z"), ("D", "W")}
+    season = StraightSeason(['A', 'B', 'C', 'D'], ['X', 'Y', 'Z', 'W'])
+    guess = {('A', 'X'), ('B', 'Y'), ('C', 'Z'), ('D', 'W')}
     correct = 2
 
     expected = [
@@ -52,22 +52,22 @@ def test_registers_a_guess_for_a_4_couple_scenario():
 
 
 def test_registers_a_false_truth_booth():
-    season = StraightSeason(["A", "B", "C"], ["X", "Y", "Z"])
-    new_scenarios = season.register_truth_booth(("A", "X"), correct=False)
+    season = StraightSeason(['A', 'B', 'C'], ['X', 'Y', 'Z'])
+    new_scenarios = season.register_truth_booth(('A', 'X'), correct=False)
 
     expected = [
-        {("A", "Y"), ("B", "X"), ("C", "Z")},
-        {("A", "Y"), ("B", "Z"), ("C", "X")},
-        {("A", "Z"), ("B", "X"), ("C", "Y")},
-        {("A", "Z"), ("B", "Y"), ("C", "X")}
+        {('A', 'Y'), ('B', 'X'), ('C', 'Z')},
+        {('A', 'Y'), ('B', 'Z'), ('C', 'X')},
+        {('A', 'Z'), ('B', 'X'), ('C', 'Y')},
+        {('A', 'Z'), ('B', 'Y'), ('C', 'X')}
     ]
 
     assert check_scenario_equality(new_scenarios, expected)
 
 
 def test_registers_a_true_truth_booth():
-    season = StraightSeason(["A", "B", "C", "D"], ["X", "Y", "Z", "W"])
-    new_scenarios = season.register_truth_booth(("A", "X"), correct=True)
+    season = StraightSeason(['A', 'B', 'C', 'D'], ['X', 'Y', 'Z', 'W'])
+    new_scenarios = season.register_truth_booth(('A', 'X'), correct=True)
 
     expected = [
         {('D', 'W'), ('C', 'Z'), ('A', 'X'), ('B', 'Y')},
@@ -82,7 +82,7 @@ def test_registers_a_true_truth_booth():
 
 
 def test_creates_a_bisexual_season():
-    season = BisexualSeason(["A", "B", "C", "D"])
+    season = BisexualSeason(['A', 'B', 'C', 'D'])
     actual = season.scenarios
     expected = [
         {('A', 'B'), ('C', 'D')},
@@ -90,6 +90,14 @@ def test_creates_a_bisexual_season():
         {('A', 'D'), ('B', 'C')}
     ]
     assert(check_scenario_equality(actual, expected))
+
+
+def test_creates_possible_pairings_for_a_bisexual_season():
+    season = BisexualSeason(['A', 'B', 'C', 'D'])
+    actual = season.create_possible_pairings()
+    expected = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'C'), ('B', 'D'), ('C', 'D')]
+    assert(sorted(actual) == sorted(expected))
+
 
 def check_scenario_equality(actual, expected):
     return len([el for el in actual if el in expected]) == len(expected)

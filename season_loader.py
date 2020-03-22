@@ -8,12 +8,12 @@ class Loader():
         self.isBisexualSeason = isBisexualSeason
 
     def load_all(self):
+        scenarios = self.load_scenarios()
         if self.isBisexualSeason:
-            pass
+            print("loading bisexual season")
+            return BisexualSeason(self.load_contestants(), scenarios)
         else:
-            scenarios = self.load_scenarios()
-            women, men = self.load_contestants()
-            return StraightSeason(women, men, scenarios)
+            return StraightSeason(*self.load_contestants(), scenarios)
 
     def get_latest_week_number(self):
         for name in glob.glob('{0}/week*.csv'.format(self.season_name)):
@@ -31,6 +31,11 @@ class Loader():
 
     def load_contestants(self):
         if self.isBisexualSeason:
+            print("loading contestants for a bisexual season")
+            contestants = self.read_lines_from_file("contestants.txt".format(self.season_name))
+            print("contestants are")
+            print(contestants)
+
             return self.read_lines_from_file("contestants.txt".format(self.season_name))
         else:
             return self.read_lines_from_file("women.txt"), self.read_lines_from_file("men.txt")
@@ -38,11 +43,3 @@ class Loader():
     def read_lines_from_file(self, filename):
         with open("{0}/{1}".format(self.season_name, filename), "r") as f:
             return f.read().splitlines()
-
-
-l = Loader("testStraightSeason", False)
-print(l.load_contestants())
-print(l.load_scenarios())
-
-l = Loader("testBiSeason", True)
-print(l.load_contestants())

@@ -1,11 +1,12 @@
 from app import App
 from input_output import InputOutputForTest
 
+choose_to_create_season = ["1"]
 create_season = ["a,b,c", "d,e,f"]
 enter_truth_booth = ["1", "a,d", "t"]
 enter_weekly_guess = ["2", "d", "e", "f", "1"]
 exit = ["3"]
-instructions = create_season + enter_truth_booth + enter_weekly_guess + exit
+instructions = choose_to_create_season + create_season + enter_truth_booth + enter_weekly_guess + exit
 
 input_output = InputOutputForTest(instructions)
 
@@ -13,7 +14,7 @@ App(input_output).main()
 
 
 def test_initial_season_display():
-    welcome_message = "Welcome to the AYTO calculator. Create a new season:"
+    welcome_message = "Welcome to the AYTO calculator."
     scenarios_introductory_text = "scenarios are"
     initial_scenario_output = '1: a + d, b + e, c + f\n' \
                               '2: a + d, b + f, c + e\n' \
@@ -25,6 +26,8 @@ def test_initial_season_display():
                                 'd  0.33   0.33   0.33 \n' \
                                 'e  0.33   0.33   0.33 \n' \
                                 'f  0.33   0.33   0.33 '
+
+    print(input_output.output)
 
     assert (input_output.output[:4] ==
             [welcome_message, scenarios_introductory_text, initial_scenario_output, initial_probability_table])

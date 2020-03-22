@@ -8,9 +8,18 @@ class App():
         self.input_output = input_output
 
     def main(self):
-        self.welcome()
-        season = self.create_season()
-        self.run(season, season.women, season.men)
+        self.input_output.print("Welcome to the AYTO calculator.")
+        action_int = int(self.input_output.input(
+            "Press 1 to load an existing season or 2 to create a new season:"))
+        if action_int == 1:
+            season = self.create_season()
+            self.run(season, season.women, season.men)
+        elif action_int == 2:
+            return quit
+        else:
+            return quit
+
+
 
     def create_season(self):
         names = self.get_name_input()
@@ -20,7 +29,7 @@ class App():
         return season
 
     def run(self, season, women, men):
-        action = self.choose_action()
+        action = self.choose_action_in_season()
         while action != quit:
             updated_season = action(season)
             self.display_scenarios(updated_season)
@@ -28,7 +37,7 @@ class App():
             return self.run(updated_season, women, men)
         self.quit()
 
-    def choose_action(self):
+    def choose_action_in_season(self):
         action_int = int(self.input_output.input(
             "Choose action: press 1 for adding a truth booth or 2 for adding a weekly guess. press anything else to quit: "))
         if action_int == 1:
@@ -77,9 +86,6 @@ class App():
         solutions_with_indexes = map(lambda index_and_solution: (str(index_and_solution[0] + 1), index_and_solution[1]),
                                      list(enumerate(formatted_solutions)))
         return "\n".join([": ".join(index_and_pair) for index_and_pair in solutions_with_indexes])
-
-    def welcome(self):
-        self.input_output.print("Welcome to the AYTO calculator. Create a new season:")
 
     def format_solution(self, solution):
         sorted_solution = sorted(list(solution), key=lambda tup: tup[0])

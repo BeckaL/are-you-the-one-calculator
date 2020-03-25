@@ -15,14 +15,14 @@ class App():
             "Press 1 to create a new season or 2 to load an existing season:"))
         if action_int == 1:
             season = self.create_season()
-            self.run(season, season.women, season.men)
+            self.run(season)
         elif action_int == 2:
             season_name = (self.input_output.input("Enter the name of the season:"))
             season = Loader(season_name).load_all()
             self.input_output.print("loaded season {0}".format(season_name))
             self.display_scenarios(season)
-            self.display_probabilities(season, season.women, season.men)
-            self.run(season, season.women, season.men)
+            self.display_probabilities(season)
+            self.run(season)
         else:
             return quit
 
@@ -30,16 +30,16 @@ class App():
         names = self.get_name_input()
         season = StraightSeason(*names)
         self.display_scenarios(season)
-        self.display_probabilities(season, *names)
+        self.display_probabilities(season)
         return season
 
-    def run(self, season, women, men):
+    def run(self, season):
         action = self.choose_action_in_season(season)
         while action != quit:
             updated_season = action(season)
             self.display_scenarios(updated_season)
-            self.display_probabilities(updated_season, women, men)
-            return self.run(updated_season, women, men)
+            self.display_probabilities(updated_season)
+            return self.run(updated_season)
         self.quit()
 
     def choose_action_in_season(self, season):
@@ -90,10 +90,14 @@ class App():
         self.input_output.print("scenarios are")
         self.input_output.print(self.format_scenarios(season.scenarios))
 
-    def display_probabilities(self, season, women, men):
+    def display_probabilities(self, season):
+        bisexual_season = type(season).__name__ == "BisexualSeason"
         probabilities_calculator = ProbabilityCalculator(season.create_possible_pairings(), season.scenarios)
         hash = probabilities_calculator.calculate()
-        formatter = Formatter(hash, women, men)
+        if bisexual_season:
+            formatter = BiFormatter(hash, season.contestants)
+        else:
+            formatter = Formatter(hash, season.women, season.men)
         self.input_output.print(formatter.printable_grid())
 
     def format_scenarios(self, scenarios):

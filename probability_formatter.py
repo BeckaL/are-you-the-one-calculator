@@ -20,3 +20,28 @@ class Formatter():
         no_of_spaces = 5 - len(string_n)
         return string_n + (" " * no_of_spaces)
 
+
+class BiFormatter():
+    def __init__(self, probabilities_hash, contestants):
+        self.probabilities_hash = probabilities_hash
+        self.contestants = contestants
+
+    def printable_grid(self):
+        pass
+
+    def probabilities_for_contestant(self, contestant):
+        return list(map(lambda other_contestant: self.pad_digit(
+            self.lookup_couple_in_probabilities_hash(contest, other_contestant)),
+                        [c for c in self.contestants if c != contestant]))
+
+    def lookup_couple_in_probabilities_hash(self, a, b):
+        try:
+            probability = probabilities_hash[(a, b)]
+        except KeyError:
+            probability = probabilities_hash[(b, a)]
+        return probability
+
+    def pad_digit(self, n):
+        string_n = str(n)
+        no_of_spaces = 5 - len(string_n)
+        return string_n + (" " * no_of_spaces)

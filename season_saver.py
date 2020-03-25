@@ -1,20 +1,22 @@
 from subprocess import call
 import glob
 import re
-
+from input_output import InputOutputForTest
+# testStraightSeason
 
 class Saver():
-    def __init__(self, season, season_name, is_bisexual_season):
+    def __init__(self, season, is_bisexual_season):
         self.season = season
-        self.season_name = season_name
+        self.season_name = season.season_name
         self.is_bisexual_season = is_bisexual_season
         self.new_week_number = self._get_new_week_number()
 
     def save(self):
         if self.new_week_number != 0:
-            return self.save_updated_season()
+            self.save_updated_season()
         else:
-            return self.saveNewSeason()
+            self.saveNewSeason()
+        return self.new_week_number
 
     def _get_new_week_number(self):
         return len(glob.glob("{0}/week*.csv".format(self.season_name)))

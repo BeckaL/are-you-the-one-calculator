@@ -21,10 +21,11 @@ class Season(ABC):
             return [scenario for scenario in self.scenarios if couple not in scenario]
 
 class StraightSeason(Season):
-    def __init__(self, women, men, scenarios=None):
+    def __init__(self, women, men, season_name=None, scenarios=None):
         self.women = women
         self.men = men
         self.scenarios = scenarios or self.create_scenarios()
+        self.season_name = season_name
 
     def create_possible_pairings(self):
         return itertools.product(self.women, self.men)
@@ -38,9 +39,10 @@ def count_shared(scenario_1, scenario_2):
 
 
 class BisexualSeason(Season):
-    def __init__(self, contestants, scenarios = []):
+    def __init__(self, contestants, season_name=None, scenarios = []):
         self.contestants = contestants
         self.scenarios = scenarios or self.create_scenarios()
+        self.season_name = season_name
 
     def all_pairs(self, lst):
         if len(lst) < 2:

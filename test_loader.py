@@ -2,11 +2,13 @@ from season_loader import *
 
 
 def test_loads_a_straight_season():
-    loader = Loader(season_name="testStraightSeason")
+    season_name = "testStraightSeason"
+    loader = Loader(season_name=season_name)
     actual_season = loader.load_all()
     expected_season = StraightSeason(
         women = ['A', 'B'],
         men = ['C', 'D'],
+        season_name=season_name,
         scenarios = [
             {('A', 'C'), ('B', 'D')},
             {('A', 'D'), ('B', 'C')}
@@ -20,6 +22,7 @@ def test_loads_a_bi_season():
     actual_season = loader.load_all()
     expected_season = BisexualSeason(
         contestants=['A', 'B', 'C', 'D'],
+        season_name="testBiSeason",
         scenarios=[
             {('A', 'B'), ('C', 'D')},
             {('A', 'D'), ('C', 'B')},

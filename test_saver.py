@@ -28,8 +28,9 @@ def test_saves_latest_results_of_bi_season():
 
     _save_new_bisexual_season(season_name)
     updated_season = BisexualSeason(contestants=['A', 'B', 'C', 'D'],
+                                    season_name=season_name,
                                     scenarios=[{('A', 'B'), ('C', 'D')}])
-    Saver(season_name=season_name, is_bisexual_season=True, season=updated_season).save()
+    Saver(is_bisexual_season=True, season=updated_season).save()
     assert (_files_are_present(season_name, week=1))
     _clean_up_files(season_name)
 
@@ -41,8 +42,9 @@ def test_saves_latest_results_of_straight_season():
     _save_new_straight_season(season_name)
     updated_season = StraightSeason(women=['A', 'B'],
                                     men=['C', 'D'],
+                                    season_name=season_name,
                                     scenarios=[{('A', 'B'), ('C', 'D')}])
-    Saver(season_name=season_name, is_bisexual_season=False, season=updated_season).save()
+    Saver(is_bisexual_season=False, season=updated_season).save()
     assert (_files_are_present(season_name, week=1))
     _clean_up_files(season_name)
 
@@ -62,8 +64,9 @@ def _count_files_matching(season_name, file):
 def _save_new_bisexual_season(season_name):
     season = BisexualSeason(
         contestants=['A', 'B', 'C', 'D'],
+        season_name = season_name,
         scenarios=[{('A', 'B'), ('C', 'D')}, {('A', 'C'), ('B', 'D')}])
-    Saver(season=season, is_bisexual_season=True, season_name=season_name).save()
+    Saver(season=season, is_bisexual_season=True).save()
 
 
 def _clean_up_files(season_name):
@@ -75,6 +78,7 @@ def _save_new_straight_season(season_name):
     season = StraightSeason(
         women=['A', 'B'],
         men=['C', 'D'],
+        season_name=season_name,
         scenarios=[{('A', 'B'), ('C', 'D')}, {('A', 'D'), ('C', 'B')}])
-    saver = Saver(season=season, is_bisexual_season=False, season_name=season_name)
+    saver = Saver(season=season, is_bisexual_season=False)
     saver.save()

@@ -2,6 +2,7 @@ from season import *
 from season_probabilities import *
 from probability_formatter import *
 from season_loader import Loader
+from season_saver import Saver
 
 
 class App():
@@ -33,7 +34,7 @@ class App():
         return season
 
     def run(self, season, women, men):
-        action = self.choose_action_in_season()
+        action = self.choose_action_in_season(season)
         while action != quit:
             updated_season = action(season)
             self.display_scenarios(updated_season)
@@ -41,13 +42,15 @@ class App():
             return self.run(updated_season, women, men)
         self.quit()
 
-    def choose_action_in_season(self):
+    def choose_action_in_season(self, season):
         action_int = int(self.input_output.input(
-            "Choose action: press 1 for adding a truth booth or 2 for adding a weekly guess. press anything else to quit: "))
+            "Choose action: press 1 for adding a truth booth or 2 for adding a weekly guess, or 3 to save the week. Press anything else to quit: "))
         if action_int == 1:
             return self.add_truth_booth
         elif action_int == 2:
             return self.add_weekly_guess
+        elif action_int == 3:
+            return self.save
         else:
             return quit
 
@@ -55,18 +58,30 @@ class App():
         self.input_output.print("goodbye")
         return
 
+    def save(self, season):
+        confirmation = self.input_output.input("are you sure you want to save? press'y' for yes")
+        if confirmation == "y":
+            bisexual_season = type(season).__name__ == "BisexualSeason"
+            print("isBisexualSeason is")
+            print(bisexual_season)
+            print("season scenarios are {0}".format(season.scenarios))
+            print("season name is {0}".format(season.season_name))
+            new_week_number = Saver(season, bisexual_season).save()
+            self.input_output.print("Saved week {0}".format(new_week_number))
+        return season
+
     def add_truth_booth(self, season):
         couple = tuple(self.input_output.input("Enter couple: ").split(","))
         raw_result = self.input_output.input("Enter result (type 't' for true or 'f' for false): ")
         result = True if raw_result == "t" else False
         new_possibilities = season.register_truth_booth(couple, result)
-        return StraightSeason(season.women, season.men, new_possibilities)
+        return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
 
     def add_weekly_guess(self, season):
         couples = {(woman, self.input_output.input("Enter partner for {w}".format(w=woman))) for woman in season.women}
         no_correct = int(self.input_output.input("How many couples are correct? \n"))
         new_possibilities = season.register_guess(couples, no_correct)
-        return StraightSeason(season.women, season.men, new_possibilities)
+        return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
 
     def get_name_input(self):
         raw_women = self.input_output.input("enter the names of the women: \n").split(",")

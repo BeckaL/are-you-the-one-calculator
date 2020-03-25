@@ -10,9 +10,9 @@ class Loader():
     def load_all(self):
         scenarios = self.load_scenarios()
         if self.isBisexualSeason:
-            return BisexualSeason(self.load_contestants(), scenarios)
+            return BisexualSeason(self.load_contestants(), self.season_name, scenarios)
         else:
-            return StraightSeason(*self.load_contestants(), scenarios)
+            return StraightSeason(*self.load_contestants(), self.season_name, scenarios)
 
     def _is_bisexual_season(self):
         return len(glob.glob('{0}/contestants.txt'.format(self.season_name))) == 1

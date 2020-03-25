@@ -5,8 +5,9 @@ choose_to_create_season = ["1"]
 create_season = ["a,b,c", "d,e,f"]
 enter_truth_booth = ["1", "a,d", "t"]
 enter_weekly_guess = ["2", "d", "e", "f", "1"]
-exit = ["3"]
+exit = ["4"]
 instructions = choose_to_create_season + create_season + enter_truth_booth + enter_weekly_guess + exit
+
 
 input_output = InputOutputForTest(instructions)
 

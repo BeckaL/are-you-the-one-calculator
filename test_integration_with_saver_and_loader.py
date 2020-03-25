@@ -50,7 +50,6 @@ def test_quits_after_showing_possibilties_again():
 
 def _clean_up_files(season_name):
     files = [file for file in glob.glob("{0}/week*.csv".format(season_name)) if file != "{0}/week0.csv".format(season_name)]
-    print("files to delete are {0}".format(files))
     for file in files:
         call(['rm', file])
 

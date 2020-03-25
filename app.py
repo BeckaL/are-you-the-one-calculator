@@ -62,10 +62,6 @@ class App():
         confirmation = self.input_output.input("are you sure you want to save? press'y' for yes")
         if confirmation == "y":
             bisexual_season = type(season).__name__ == "BisexualSeason"
-            print("isBisexualSeason is")
-            print(bisexual_season)
-            print("season scenarios are {0}".format(season.scenarios))
-            print("season name is {0}".format(season.season_name))
             new_week_number = Saver(season, bisexual_season).save()
             self.input_output.print("Saved week {0}".format(new_week_number))
         return season

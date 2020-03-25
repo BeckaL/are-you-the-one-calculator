@@ -27,9 +27,6 @@ def test_initial_season_display():
                                 'd  0.33   0.33   0.33 \n' \
                                 'e  0.33   0.33   0.33 \n' \
                                 'f  0.33   0.33   0.33 '
-
-    print(input_output.output)
-
     assert (input_output.output[:4] ==
             [welcome_message, scenarios_introductory_text, initial_scenario_output, initial_probability_table])
 

@@ -1,6 +1,7 @@
 from season import *
 from season_probabilities import *
 from probability_formatter import *
+from season_loader import Loader
 
 
 class App():
@@ -10,12 +11,17 @@ class App():
     def main(self):
         self.input_output.print("Welcome to the AYTO calculator.")
         action_int = int(self.input_output.input(
-            "Press 1 to load an existing season or 2 to create a new season:"))
+            "Press 1 to create a new season or 2 to load an existing season:"))
         if action_int == 1:
             season = self.create_season()
             self.run(season, season.women, season.men)
         elif action_int == 2:
-            return quit
+            season_name = (self.input_output.input("Enter the name of the season:"))
+            season = Loader(season_name).load_all()
+            self.input_output.print("loaded season {0}".format(season_name))
+            self.display_scenarios(season)
+            self.display_probabilities(season, season.women, season.men)
+            self.run(season, season.women, season.men)
         else:
             return quit
 

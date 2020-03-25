@@ -3,9 +3,9 @@ import glob
 import re
 
 class Loader():
-    def __init__(self, season_name, isBisexualSeason):
+    def __init__(self, season_name):
         self.season_name = season_name
-        self.isBisexualSeason = isBisexualSeason
+        self.isBisexualSeason = self._is_bisexual_season()
 
     def load_all(self):
         scenarios = self.load_scenarios()
@@ -13,6 +13,9 @@ class Loader():
             return BisexualSeason(self.load_contestants(), scenarios)
         else:
             return StraightSeason(*self.load_contestants(), scenarios)
+
+    def _is_bisexual_season(self):
+        return len(glob.glob('{0}/contestants.txt'.format(self.season_name))) == 1
 
     def get_latest_week_number(self):
         for name in glob.glob('{0}/week*.csv'.format(self.season_name)):

@@ -26,7 +26,6 @@ class Loader():
 
     def format_scenarios(self, scenarios):
         for scenario in scenarios:
-            print([pairing for pairing in scenario.split(",")])
             yield set([tuple(pairing.split("+")) for pairing in scenario.split(",")])
 
     def load_contestants(self):

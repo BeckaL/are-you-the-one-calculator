@@ -19,8 +19,6 @@ class App():
         else:
             return quit
 
-
-
     def create_season(self):
         names = self.get_name_input()
         season = StraightSeason(*names)

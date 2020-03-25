@@ -5,10 +5,9 @@ from input_output import InputOutputForTest
 # testStraightSeason
 
 class Saver():
-    def __init__(self, season, is_bisexual_season):
+    def __init__(self, season):
         self.season = season
         self.season_name = season.season_name
-        self.is_bisexual_season = is_bisexual_season
         self.new_week_number = self._get_new_week_number()
 
     def save(self):
@@ -25,7 +24,7 @@ class Saver():
        call(['./save_updated_scenarios.sh', self.season_name, self.scenarios_formatter(), str(self.new_week_number)])
 
     def saveNewSeason(self):
-        if self.is_bisexual_season:
+        if self.season.is_bisexual_season():
             call_with_args = ['./createNewBiSeason.sh', self.season_name, self.scenarios_formatter(), '\n'.join(self.season.contestants)]
         else:
             call_with_args = ['./createNewStraightSeason.sh', self.season_name, self.scenarios_formatter(), '\n'.join(self.season.women), '\n'.join(self.season.men)]

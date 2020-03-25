@@ -20,6 +20,9 @@ class Season(ABC):
         else:
             return [scenario for scenario in self.scenarios if couple not in scenario]
 
+    def is_bisexual_season(self):
+        return type(self).__name__ == "BisexualSeason"
+
 class StraightSeason(Season):
     def __init__(self, women, men, season_name=None, scenarios=None):
         self.women = women

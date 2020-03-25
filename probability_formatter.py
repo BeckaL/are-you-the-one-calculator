@@ -20,20 +20,3 @@ class Formatter():
         no_of_spaces = 5 - len(string_n)
         return string_n + (" " * no_of_spaces)
 
-def check():
-    probabilities_hash = {
-        ("A", "X"): 0.75,
-        ("A", "Y"): 0.25,
-        ("A", "Z"): 0.00,
-        ("B", "X"): 0.25,
-        ("B", "Y"): 0.75,
-        ("B", "Z"): 0.00,
-        ("C", "X"): 0.00,
-        ("C", "Y"): 0.00,
-        ("C", "Z"): 1.00,
-    }
-    women = ["A", "B", "C"]
-    men = ["X", "Y", "Z"]
-    f = Formatter(probabilities_hash, women, men)
-    grid = f.printable_grid()
-    print(grid)

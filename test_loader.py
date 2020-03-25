@@ -33,6 +33,4 @@ def straight_season_equality(expected, actual):
     return all([expected.men == actual.men, expected.women == actual.women, expected.scenarios == actual.scenarios])
 
 def bi_season_equality(expected, actual):
-    print(expected.scenarios)
-    print(actual.scenarios)
     return all([expected.contestants == actual.contestants, expected.scenarios == actual.scenarios])

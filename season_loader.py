@@ -10,7 +10,6 @@ class Loader():
     def load_all(self):
         scenarios = self.load_scenarios()
         if self.isBisexualSeason:
-            print("loading bisexual season")
             return BisexualSeason(self.load_contestants(), scenarios)
         else:
             return StraightSeason(*self.load_contestants(), scenarios)
@@ -30,11 +29,6 @@ class Loader():
 
     def load_contestants(self):
         if self.isBisexualSeason:
-            print("loading contestants for a bisexual season")
-            contestants = self.read_lines_from_file("contestants.txt".format(self.season_name))
-            print("contestants are")
-            print(contestants)
-
             return self.read_lines_from_file("contestants.txt".format(self.season_name))
         else:
             return self.read_lines_from_file("women.txt"), self.read_lines_from_file("men.txt")

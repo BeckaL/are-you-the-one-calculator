@@ -70,7 +70,10 @@ class App():
         raw_result = self.input_output.input("Enter result (type 't' for true or 'f' for false): ")
         result = True if raw_result == "t" else False
         new_possibilities = season.register_truth_booth(couple, result)
-        return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
+        if season.is_bisexual_season():
+            return BisexualSeason(season.contestants, season.season_name, new_possibilities)
+        else:
+            return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
 
     def add_weekly_guess(self, season):
         couples = {(woman, self.input_output.input("Enter partner for {w}".format(w=woman))) for woman in season.women}
@@ -90,10 +93,9 @@ class App():
         self.input_output.print(self.format_scenarios(season.scenarios))
 
     def display_probabilities(self, season):
-        bisexual_season = type(season).__name__ == "BisexualSeason"
         probabilities_calculator = ProbabilityCalculator(season.create_possible_pairings(), season.scenarios)
         hash = probabilities_calculator.calculate()
-        if bisexual_season:
+        if season.is_bisexual_season():
             formatter = BiFormatter(hash, season.contestants)
         else:
             formatter = Formatter(hash, season.women, season.men)

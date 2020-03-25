@@ -8,10 +8,10 @@ class ProbabilityCalculator():
         return {pair: self.pair_percentage(pair) for pair in self.possible_pairings}
 
     def pair_percentage(self, pair):
-        return round(self.number_of_scenarios_for_pair(pair) / float(self.total_scenarios), 2)
+        return round(self.number_of_scenarios_for_pair(pair[0], pair[1]) / float(self.total_scenarios), 2)
 
-    def number_of_scenarios_for_pair(self, pair):
-        return len(list(filter(lambda scenario: pair in scenario, self.current_scenarios)))
+    def number_of_scenarios_for_pair(self, a, b):
+        return len([scenario for scenario in self.current_scenarios if (a, b) in scenario or (b, a) in scenario])
 
 
 

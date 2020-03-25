@@ -27,18 +27,26 @@ class BiFormatter():
         self.contestants = contestants
 
     def printable_grid(self):
-        pass
+        top_row = ["   " + "      ".join(self.contestants)]
+        probability_rows = [self.probabilities_for_contestant(c) for c in self.contestants]
+        other_rows = [[self.contestants[i]] + probability_rows[i] for i in range(len(self.contestants))]
+        printable_other_rows = ["  ".join(row) for row in other_rows]
+        rows = top_row + printable_other_rows
+        return "\n".join(rows)
 
     def probabilities_for_contestant(self, contestant):
         return list(map(lambda other_contestant: self.pad_digit(
-            self.lookup_couple_in_probabilities_hash(contest, other_contestant)),
-                        [c for c in self.contestants if c != contestant]))
+            self.lookup_couple_in_probabilities_hash(contestant, other_contestant)),
+                        self.contestants))
 
     def lookup_couple_in_probabilities_hash(self, a, b):
-        try:
-            probability = probabilities_hash[(a, b)]
-        except KeyError:
-            probability = probabilities_hash[(b, a)]
+        if a == b:
+            return ' x '
+        else:
+            try:
+                probability = self.probabilities_hash[(a, b)]
+            except KeyError:
+                probability = self.probabilities_hash[(b, a)]
         return probability
 
     def pad_digit(self, n):

@@ -39,16 +39,14 @@ class App():
         season = StraightSeason(*names)
         self.display_scenarios(season)
         self.display_probabilities(season)
-        season_with_name = self.save(season)
-        return season_with_name
+        return self.save(season)
 
     def create_bi_season(self):
         names = self.get_bi_contestants()
         season = BisexualSeason(names)
         self.display_scenarios(season)
         self.display_probabilities(season)
-        season_with_name = self.save(season)
-        return season_with_name
+        return self.save(season)
 
     def run(self, season):
         action = self.choose_action_in_season(season)

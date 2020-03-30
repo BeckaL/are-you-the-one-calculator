@@ -1,5 +1,5 @@
-from app import App
-from input_output import InputOutputForTest
+from main.app.app import App
+from main.display.input_output import InputOutputForTest
 import glob
 from subprocess import call
 

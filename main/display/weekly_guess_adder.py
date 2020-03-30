@@ -1,5 +1,5 @@
-from season import StraightSeason, BisexualSeason
-from input_output import StdInputOutput
+from main.model.season import StraightSeason, BisexualSeason
+from main.display.input_output import StdInputOutput
 
 def add_guess(season, input_output):
     if season.is_bisexual_season():

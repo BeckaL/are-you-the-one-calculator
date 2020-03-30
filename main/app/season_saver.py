@@ -1,7 +1,7 @@
 from subprocess import call
 import glob
 import re
-from input_output import InputOutputForTest
+from main.display.input_output import InputOutputForTest
 
 
 # testStraightSeason

@@ -1,5 +1,5 @@
-from app import App
-from input_output import InputOutputForTest
+from main.app.app import App
+from main.display.input_output import InputOutputForTest
 
 choose_to_create_season = ["1", "1"]
 create_season_without_saving = ["a,b,c", "d,e,f", "n"]

@@ -1,4 +1,4 @@
-from season import *
+from main.model.season import *
 
 
 def test_creates_all_possible_pairings():

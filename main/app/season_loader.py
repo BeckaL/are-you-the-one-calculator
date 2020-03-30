@@ -1,4 +1,4 @@
-from season import *
+from main.model.season import *
 import glob
 import re
 

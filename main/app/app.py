@@ -1,9 +1,9 @@
-from season import *
-from season_probabilities import *
-from probability_formatter import *
-from season_loader import Loader
-from season_saver import Saver
-from weekly_guess_adder import add_guess
+from main.model.season import *
+from main.model.season_probabilities import *
+from main.display.probability_formatter import *
+from main.app.season_loader import Loader
+from main.app.season_saver import Saver
+from main.display.weekly_guess_adder import add_guess
 
 
 class App():

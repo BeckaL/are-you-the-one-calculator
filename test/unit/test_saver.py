@@ -1,5 +1,5 @@
-from season import BisexualSeason, StraightSeason
-from season_saver import Saver
+from main.model.season import BisexualSeason, StraightSeason
+from main.app.season_saver import Saver
 import glob
 from subprocess import call
 

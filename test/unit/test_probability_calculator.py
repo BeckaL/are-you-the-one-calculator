@@ -1,4 +1,4 @@
-from season_probabilities import *
+from main.model.season_probabilities import *
 
 
 def test_calculates_probabilities_for_all_pairings():

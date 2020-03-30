@@ -1,4 +1,4 @@
-from season_loader import *
+from main.app.season_loader import *
 
 
 def test_loads_a_straight_season():

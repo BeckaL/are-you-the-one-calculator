@@ -41,7 +41,6 @@ def test_display_after_truth_booth():
                                           'B  0.0     x     1.0    0.0  \n' \
                                           'C  0.0    1.0     x     0.0  \n' \
                                           'D  1.0    0.0    0.0     x   '
-    print(input_output.output[6])
     assert (input_output.output[5:8] ==
             [scenarios_introductory_text, scenario_output_after_truth_booth, probability_table_after_truth_booth])
 

@@ -1,7 +1,7 @@
 from app import App
 from input_output import InputOutputForTest
 
-choose_to_create_season = ["1"]
+choose_to_create_season = ["1", "1"]
 create_season = ["a,b,c", "d,e,f"]
 enter_truth_booth = ["1", "a,d", "t"]
 enter_weekly_guess = ["2", "d", "e", "f", "1"]

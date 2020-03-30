@@ -3,6 +3,7 @@ from season_probabilities import *
 from probability_formatter import *
 from season_loader import Loader
 from season_saver import Saver
+from weekly_guess_adder import add_guess
 
 
 class App():
@@ -27,11 +28,27 @@ class App():
             return quit
 
     def create_season(self):
+        action_int = int(self.input_output.input("Press 1 to create a straight season or 2 to create a bi season"))
+        if action_int == 1:
+            return self.create_straight_season()
+        elif action_int == 2:
+            return self.create_bi_season()
+
+    def create_straight_season(self):
         names = self.get_name_input()
         season = StraightSeason(*names)
         self.display_scenarios(season)
         self.display_probabilities(season)
-        return season
+        season_with_name = self.save(season)
+        return season_with_name
+
+    def create_bi_season(self):
+        names = self.get_bi_contestants()
+        season = BisexualSeason(names)
+        self.display_scenarios(season)
+        self.display_probabilities(season)
+        season_with_name = self.save(season)
+        return season_with_name
 
     def run(self, season):
         action = self.choose_action_in_season(season)
@@ -61,9 +78,18 @@ class App():
     def save(self, season):
         confirmation = self.input_output.input("are you sure you want to save? press'y' for yes")
         if confirmation == "y":
-            new_week_number = Saver(season).save()
-            self.input_output.print("Saved week {0}".format(new_week_number))
-        return season
+            if season.season_name is None:
+                season_name = self.input_output.input("enter season name: ")
+                season_updated_with_name = season.add_name(season_name)
+                new_week_number = Saver(season_updated_with_name).save()
+                self.input_output.print("Saved week {0}".format(new_week_number))
+                return season_updated_with_name
+            else:
+                new_week_number = Saver(season).save()
+                self.input_output.print("Saved week {0}".format(new_week_number))
+                return season
+        else:
+            return season
 
     def add_truth_booth(self, season):
         couple = tuple(self.input_output.input("Enter couple: ").split(","))
@@ -76,10 +102,7 @@ class App():
             return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
 
     def add_weekly_guess(self, season):
-        couples = {(woman, self.input_output.input("Enter partner for {w}".format(w=woman))) for woman in season.women}
-        no_correct = int(self.input_output.input("How many couples are correct? \n"))
-        new_possibilities = season.register_guess(couples, no_correct)
-        return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
+        return add_guess(season, self.input_output)
 
     def get_name_input(self):
         raw_women = self.input_output.input("enter the names of the women: \n").split(",")
@@ -87,6 +110,10 @@ class App():
         raw_men = self.input_output.input("enter the names of the men: \n").split(",")
         trimmed_m_names = list(map(lambda name: name.strip(), raw_men))
         return trimmed_f_names, trimmed_m_names
+
+    def get_bi_contestants(self):
+        raw_contestants= self.input_output.input("enter the names of the contestants: \n").split(",")
+        return list(map(lambda name: name.strip(), raw_contestants))
 
     def display_scenarios(self, season):
         self.input_output.print("scenarios are")

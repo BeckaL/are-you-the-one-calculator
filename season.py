@@ -23,6 +23,9 @@ class Season(ABC):
     def is_bisexual_season(self):
         return type(self).__name__ == "BisexualSeason"
 
+    def add_name(self,name):
+        pass
+
 class StraightSeason(Season):
     def __init__(self, women, men, season_name=None, scenarios=None):
         self.women = women
@@ -35,6 +38,9 @@ class StraightSeason(Season):
 
     def create_scenarios(self):
         return [set(zip(woman, self.men)) for woman in itertools.permutations(self.women, len(self.men))]
+
+    def add_name(self,name):
+        return StraightSeason(self.women, self.men, name, self.scenarios)
 
 
 def count_shared(scenario_1, scenario_2):
@@ -62,3 +68,6 @@ class BisexualSeason(Season):
 
     def create_possible_pairings(self):
         return itertools.combinations(self.contestants, 2)
+
+    def add_name(self, name):
+        return BisexualSeason(self.contestants, name, self.scenarios)

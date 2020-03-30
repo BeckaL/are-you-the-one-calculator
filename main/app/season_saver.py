@@ -2,9 +2,8 @@ from subprocess import call
 import glob
 import re
 from main.display.input_output import InputOutputForTest
+import os
 
-
-# testStraightSeason
 
 class Saver():
     def __init__(self, season, new_season_name=None):
@@ -26,13 +25,19 @@ class Saver():
         call(['./save_updated_scenarios.sh', self.season_name, self.scenarios_formatter(), str(self.new_week_number)])
 
     def saveNewSeason(self):
+        os.mkdir("./{0}".format(self.season_name))
+        with open("./{0}/week0.csv".format(self.season_name), "w") as f:
+            f.write(self.scenarios_formatter())
         if self.season.is_bisexual_season():
-            call_with_args = ['./createNewBiSeason.sh', self.season_name, self.scenarios_formatter(),
-                              '\n'.join(self.season.contestants)]
+           self.write_contestants("contestants.txt", self.season.contestants)
         else:
-            call_with_args = ['./createNewStraightSeason.sh', self.season_name, self.scenarios_formatter(),
-                              '\n'.join(self.season.women), '\n'.join(self.season.men)]
-        call(call_with_args)
+            self.write_contestants("men.txt", self.season.men)
+            self.write_contestants("women.txt", self.season.women)
+
+    def write_contestants(self, filename, contestants):
+        with open("./{0}/{1}".format(self.season_name, filename), "w") as f:
+            f.write('\n'.join(contestants))
+
 
     def scenarios_formatter(self):
         results = []

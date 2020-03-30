@@ -33,7 +33,7 @@ def test_loads_a_bi_season():
 
 
 def straight_season_equality(expected, actual):
-    return all([expected.men == actual.men, expected.women == actual.women, expected.scenarios == actual.scenarios])
+    return all([expected.season_name == actual.season_name, expected.men == actual.men, expected.women == actual.women, expected.scenarios == actual.scenarios])
 
 def bi_season_equality(expected, actual):
-    return all([expected.contestants == actual.contestants, expected.scenarios == actual.scenarios])
+    return all([expected.season_name == actual.season_name, expected.contestants == actual.contestants, expected.scenarios == actual.scenarios])

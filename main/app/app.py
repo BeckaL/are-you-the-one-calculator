@@ -94,10 +94,7 @@ class App():
         raw_result = self.input_output.input("Enter result (type 't' for true or 'f' for false): ")
         result = True if raw_result == "t" else False
         new_possibilities = season.register_truth_booth(couple, result)
-        if season.is_bisexual_season():
-            return BisexualSeason(season.contestants, season.season_name, new_possibilities)
-        else:
-            return StraightSeason(season.women, season.men, season.season_name, new_possibilities)
+        return season.add_updated_scenarios(new_possibilities)
 
     def add_weekly_guess(self, season):
         return add_guess(season, self.input_output)

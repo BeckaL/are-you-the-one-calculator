@@ -26,6 +26,9 @@ class Season(ABC):
     def add_name(self,name):
         pass
 
+    def add_updated_scenarios(self, new_scenarios):
+        pass
+
 class StraightSeason(Season):
     def __init__(self, women, men, season_name=None, scenarios=None):
         self.women = women
@@ -41,6 +44,9 @@ class StraightSeason(Season):
 
     def add_name(self,name):
         return StraightSeason(self.women, self.men, name, self.scenarios)
+
+    def add_updated_scenarios(self, new_scenarios):
+        return StraightSeason(self.women, self.men, self.season_name, new_scenarios)
 
 
 def count_shared(scenario_1, scenario_2):
@@ -71,3 +77,6 @@ class BisexualSeason(Season):
 
     def add_name(self, name):
         return BisexualSeason(self.contestants, name, self.scenarios)
+
+    def add_updated_scenarios(self, new_scenarios):
+        return BisexualSeason(self.contestants, self.season_name, new_scenarios)

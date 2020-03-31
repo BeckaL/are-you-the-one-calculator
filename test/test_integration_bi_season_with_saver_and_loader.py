@@ -4,10 +4,11 @@ import glob
 from subprocess import call
 
 choose_to_load_season = ["2", "testBiSeason"]
+enter_weekly_guess = ["2", "A+D,C+B", "2"]
 enter_truth_booth = ["1", "A,D", "t"]
 save = ["3", "y"]
 exit = ["4"]
-instructions = choose_to_load_season + enter_truth_booth + save + exit
+instructions = choose_to_load_season + enter_weekly_guess + save + exit
 
 input_output = InputOutputForTest(instructions)
 

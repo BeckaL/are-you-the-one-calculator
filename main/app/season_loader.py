@@ -18,8 +18,7 @@ class Loader():
         return len(glob.glob('{0}/contestants.txt'.format(self.season_name))) == 1
 
     def get_latest_week_number(self):
-        for name in glob.glob('{0}/week*.csv'.format(self.season_name)):
-            return max([int(n) for n in re.findall("\d+", name)])
+        return len(glob.glob('{0}/week*.csv'.format(self.season_name))) - 1
 
     def load_scenarios(self):
         week_number = self.get_latest_week_number()

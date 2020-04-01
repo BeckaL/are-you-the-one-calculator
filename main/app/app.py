@@ -111,8 +111,12 @@ class App():
         return list(map(lambda name: name.strip(), raw_contestants))
 
     def display_scenarios(self, season):
-        self.input_output.print("scenarios are")
-        self.input_output.print(self.format_scenarios(season.scenarios))
+        len_scenarios = len(season.scenarios)
+        if len_scenarios > 100:
+            self.input_output.print("number of scenarios is {0}".format(len_scenarios))
+        else:
+            self.input_output.print("scenarios are")
+            self.input_output.print(self.format_scenarios(season.scenarios))
 
     def display_probabilities(self, season):
         probabilities_calculator = ProbabilityCalculator(season.create_possible_pairings(), season.scenarios)

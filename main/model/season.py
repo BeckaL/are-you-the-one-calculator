@@ -15,11 +15,10 @@ class Season(ABC):
         return [scenario for scenario in self.scenarios if count_shared(scenario, guess) == noCorrect]
 
     def register_truth_booth(self, couple, correct):
-        a, b = couple
         if correct:
-            return [scenario for scenario in self.scenarios if (a, b) in scenario or (b, a) in scenario]
+            return [scenario for scenario in self.scenarios if couple_in_scenario(couple, scenario)]
         else:
-            return [scenario for scenario in self.scenarios if (a, b) not in scenario and (b, a) not in scenario]
+            return [scenario for scenario in self.scenarios if couple_not_in_scenario(couple, scenario)]
 
     def is_bisexual_season(self):
         return type(self).__name__ == "BisexualSeason"
@@ -51,7 +50,17 @@ class StraightSeason(Season):
 
 
 def count_shared(scenario_1, scenario_2):
-    return sum(map(lambda couple: 1 if couple in scenario_2 else 0, list(scenario_1)))
+    return sum(map(lambda couple: 1 if couple_in_scenario(couple, scenario_2) else 0, list(scenario_1)))
+
+
+def couple_in_scenario(couple, scenario):
+    a, b = couple
+    return (a, b) in scenario or (b, a) in scenario
+
+
+def couple_not_in_scenario(couple, scenario):
+    a, b = couple
+    return (a, b) not in scenario and (b, a) not in scenario
 
 
 class BisexualSeason(Season):

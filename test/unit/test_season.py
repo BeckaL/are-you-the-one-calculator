@@ -118,5 +118,14 @@ def test_registers_a_false_truth_booth_for_a_bisexual_season_regardless_of_order
         assert (check_scenario_equality(actual, expected))
 
 
+def test_registers_a_weekly_guess_for_a_bisexual_season_regardless_of_order():
+    guesses = [[('A', 'B'), ('C', 'D')],[('B', 'A'), ('D', 'C')]]
+    for guess in guesses:
+        season = BisexualSeason(['A', 'B', 'C', 'D'], "some_season")
+        actual = season.register_guess(guess, 2)
+        expected = [{('A', 'B'), ('C', 'D')}]
+        assert (check_scenario_equality(actual, expected))
+
+
 def check_scenario_equality(actual, expected):
     return len([el for el in actual if el in expected]) == len(expected) and len(expected) == len(actual)

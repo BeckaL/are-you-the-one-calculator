@@ -30,7 +30,7 @@ def test_registers_a_guess_for_a_3_couple_scenario():
         {('A', 'X'), ('B', 'Z'), ('C', 'Y')},
         {('A', 'Y'), ('B', 'X'), ('C', 'Z')},
         {('A', 'Z'), ('B', 'Y'), ('C', 'X')}]
-    
+
     new_scenarios = season.register_guess(guess, correct)
     assert check_scenario_equality(new_scenarios, expected)
 
@@ -40,12 +40,12 @@ def test_registers_a_guess_for_a_4_couple_scenario():
     guess = {('A', 'X'), ('B', 'Y'), ('C', 'Z'), ('D', 'W')}
     correct = 2
 
-    expected = [
-        {('C', 'W'), ('A', 'X'), ('D', 'Z'), ('B', 'Y')},
-        {('C', 'Y'), ('B', 'Z'), ('A', 'X'), ('D', 'W')},
-        {('C', 'Z'), ('A', 'X'), ('D', 'Y'), ('B', 'W')},
-        {('A', 'Z'), ('D', 'W'), ('C', 'X'), ('B', 'Y')},
-    ]
+    expected = [{('C', 'W'), ('D', 'Z'), ('A', 'X'), ('B', 'Y')},
+                {('C', 'Y'), ('D', 'W'), ('A', 'X'), ('B', 'Z')},
+                {('C', 'Z'), ('D', 'Y'), ('A', 'X'), ('B', 'W')},
+                {('B', 'X'), ('C', 'Z'), ('A', 'Y'), ('D', 'W')},
+                {('C', 'X'), ('A', 'Z'), ('D', 'W'), ('B', 'Y')},
+                {('C', 'Z'), ('A', 'W'), ('D', 'X'), ('B', 'Y')}]
 
     new_scenarios = season.register_guess(guess, correct)
     assert check_scenario_equality(new_scenarios, expected)
@@ -89,15 +89,34 @@ def test_creates_a_bisexual_season():
         {('A', 'C'), ('B', 'D')},
         {('A', 'D'), ('B', 'C')}
     ]
-    assert(check_scenario_equality(actual, expected))
+    assert (check_scenario_equality(actual, expected))
 
 
 def test_creates_possible_pairings_for_a_bisexual_season():
     season = BisexualSeason(['A', 'B', 'C', 'D'], "some_season")
     actual = season.create_possible_pairings()
     expected = [('A', 'B'), ('A', 'C'), ('A', 'D'), ('B', 'C'), ('B', 'D'), ('C', 'D')]
-    assert(sorted(actual) == sorted(expected))
+    assert (sorted(actual) == sorted(expected))
+
+
+def test_registers_a_true_truth_booth_for_a_bisexual_season_regardless_of_order():
+    truth_booths = [('A', 'B'), ('B', 'A')]
+    for tb in truth_booths:
+        season = BisexualSeason(['A', 'B', 'C', 'D'], "some_season")
+        actual = season.register_truth_booth(tb, True)
+        expected = [{('A', 'B'), ('C', 'D')}]
+        assert (actual == expected)
+
+
+def test_registers_a_false_truth_booth_for_a_bisexual_season_regardless_of_order():
+    truth_booths = [('A', 'B'), ('B', 'A')]
+    for tb in truth_booths:
+        season = BisexualSeason(['A', 'B', 'C', 'D'], "some_season")
+        actual = season.register_truth_booth(tb, False)
+        expected = [{('A', 'D'), ('B', 'C')},
+                    {('A', 'C'), ('B', 'D')}]
+        assert (check_scenario_equality(actual, expected))
 
 
 def check_scenario_equality(actual, expected):
-    return len([el for el in actual if el in expected]) == len(expected)
+    return len([el for el in actual if el in expected]) == len(expected) and len(expected) == len(actual)

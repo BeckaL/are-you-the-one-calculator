@@ -15,10 +15,11 @@ class Season(ABC):
         return [scenario for scenario in self.scenarios if count_shared(scenario, guess) == noCorrect]
 
     def register_truth_booth(self, couple, correct):
+        a, b = couple
         if correct:
-            return [scenario for scenario in self.scenarios if couple in scenario]
+            return [scenario for scenario in self.scenarios if (a, b) in scenario or (b, a) in scenario]
         else:
-            return [scenario for scenario in self.scenarios if couple not in scenario]
+            return [scenario for scenario in self.scenarios if (a, b) not in scenario and (b, a) not in scenario]
 
     def is_bisexual_season(self):
         return type(self).__name__ == "BisexualSeason"

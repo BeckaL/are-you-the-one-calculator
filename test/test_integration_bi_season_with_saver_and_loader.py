@@ -22,7 +22,7 @@ def test_initial_season_display():
     initial_scenario_output = '1: A + B, C + D\n' \
                               '2: A + D, C + B\n' \
                               '3: A + C, B + D'
-    initial_probability_table = '   A      B      C      D\n' \
+    initial_probability_table = '    A      B      C      D     \n' \
                                 'A   x     0.33   0.33   0.33 \n' \
                                 'B  0.33    x     0.33   0.33 \n' \
                                 'C  0.33   0.33    x     0.33 \n' \
@@ -37,7 +37,7 @@ def test_initial_season_display():
 def test_display_after_truth_booth():
     scenarios_introductory_text = "scenarios are"
     scenario_output_after_truth_booth = '1: A + D, C + B'
-    probability_table_after_truth_booth = '   A      B      C      D\n' \
+    probability_table_after_truth_booth = '    A      B      C      D     \n' \
                                           'A   x     0.0    0.0    1.0  \n' \
                                           'B  0.0     x     1.0    0.0  \n' \
                                           'C  0.0    1.0     x     0.0  \n' \

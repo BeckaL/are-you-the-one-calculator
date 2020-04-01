@@ -22,7 +22,8 @@ class Saver():
         return len(glob.glob("{0}/week*.csv".format(self.season_name)))
 
     def save_updated_season(self):
-        call(['./save_updated_scenarios.sh', self.season_name, self.scenarios_formatter(), str(self.new_week_number)])
+        with open("./{0}/week{1}.csv".format(self.season_name, self.new_week_number), "w") as f:
+            f.write(self.scenarios_formatter())
 
     def saveNewSeason(self):
         os.mkdir("./{0}".format(self.season_name))

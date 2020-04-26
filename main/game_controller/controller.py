@@ -23,22 +23,23 @@ class BaseController(ABC):
 class BisexualController(BaseController):
     def __init__(self, fixed_solution=None):
         self.contestants = deepcopy(bisexual_contestants)
-        self.solution = fixed_solution or self.generate_solution(self.contestants)
+        self.solution = fixed_solution or self.generate_solution()
 
     def generate_solution(self):
         random.shuffle(self.contestants)
-        return {_pair_at(i, contestants_to_shuffle) for i in range(0, len(contestants_to_shuffle) // 2)}
+        return {pair_at(i, self.contestants) for i in range(0, len(self.contestants) // 2)}
 
 
 class StraightController(BaseController):
     def __init__(self, solution=None):
         self.contestants = deepcopy(straight_contestants)
-        self.solution = solution or self.generate_solution(self.contestants)
+        self.solution = solution or self.generate_solution()
 
-    def generate_solution(self, contestants):
-        shuffled_men = random.shuffle(deepcopy(straight_men))
-        return {frozenset(couple) for couple in zip(straight_women, shuffled_men)}
+    def generate_solution(self):
+        copied_men = deepcopy(straight_men)
+        random.shuffle(copied_men)
+        return {frozenset(couple) for couple in zip(straight_women, copied_men)}
 
 
-def _pair_at(self, i, shuffled_contestants):
+def pair_at(i, shuffled_contestants):
     return frozenset((shuffled_contestants[2 * i], shuffled_contestants[2 * i + 1]))

@@ -21,8 +21,8 @@ class BaseController(ABC):
 
 
 class BisexualController(BaseController):
-    def __init__(self, fixed_solution=None):
-        self.contestants = deepcopy(bisexual_contestants)
+    def __init__(self, fixed_solution=None, contestants = bisexual_contestants):
+        self.contestants = deepcopy(contestants)
         self.solution = fixed_solution or self.generate_solution()
 
     def generate_solution(self):

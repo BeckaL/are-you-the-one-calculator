@@ -55,12 +55,12 @@ def count_shared(scenario_1, scenario_2):
 
 def couple_in_scenario(couple, scenario):
     a, b = couple
-    return (a, b) in scenario or (b, a) in scenario
+    return (a, b) in scenario or (b, a) in scenario or frozenset({a, b}) in scenario
 
 
 def couple_not_in_scenario(couple, scenario):
     a, b = couple
-    return (a, b) not in scenario and (b, a) not in scenario
+    return (a, b) not in scenario and (b, a) not in scenario and frozenset({a, b}) not in scenario
 
 
 class BisexualSeason(Season):
@@ -80,10 +80,11 @@ class BisexualSeason(Season):
                 yield [pair] + rest
 
     def create_scenarios(self):
+        print("no scenarios so creating new ones")
         return list(set(l) for l in self.all_pairs(self.contestants))
 
     def create_possible_pairings(self):
-        return itertools.combinations(self.contestants, 2)
+        return list(itertools.combinations(self.contestants, 2))
 
     def add_name(self, name):
         return BisexualSeason(self.contestants, name, self.scenarios)

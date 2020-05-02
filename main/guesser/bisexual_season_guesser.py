@@ -5,7 +5,7 @@ from main.display.probability_formatter import BiFormatter
 from main.maths.factorials import double_factorial
 from main.guesser.guesser_messages import *
 import random
-from main.guesser.guess_generator import Basic_Guess_Generator
+from main.guesser.guess_generator import Basic_Guess_Generator, Highest_Probability_Guess_Generator
 
 class BisexualGuesser:
     def __init__(self, controller, calculator, formatter, guesser = Basic_Guess_Generator()):
@@ -35,8 +35,7 @@ class BisexualGuesser:
         season_after_match_up_ceremony = self.update_season_with_guess(match_up_ceremony_guess, self.match_up_ceremony,
                                                                                season_after_truth_booth)
         if season_after_match_up_ceremony.solved:
-            display_solution_message(self.controller.solution, self.matches, week_no)
-            return display_exit_message()
+            return display_solution_message(self.controller.solution, self.matches, week_no)
         return self.guess_until_solved(season_after_match_up_ceremony, week_no + 1)
 
     def update_season_with_guess(self, guess, season_updater_function, season):
@@ -78,13 +77,14 @@ class BisexualGuesser:
 
     def truth_booth_result(self, pair, season):
         is_correct = self.controller.is_couple(pair)
-        display_truth_booth_guess_message(pair, is_correct)
+        probability = 1 if pair in self.matches else self.unknowns[pair]
+        display_truth_booth_guess_message(pair, is_correct, probability)
         self.matches.add(pair) if is_correct else self.no_matches.add(pair)
         return season.add_updated_scenarios(season.register_truth_booth(pair, is_correct))
 
 
 if __name__ == "__main__":
     calculator = ProbabilityCalculator
-    controller = BisexualController(contestants=bisexual_contestants[0:10])
-    guesser = BisexualGuesser(controller, calculator, BiFormatter)
+    controller = BisexualController()
+    guesser = BisexualGuesser(controller, calculator, BiFormatter, Highest_Probability_Guess_Generator())
     guesser.run()

@@ -5,9 +5,9 @@ def display_match_up_guess_and_result_message(guess, number_correct):
     print("guessing for match up ceremony: {0}\n number correct is {1}".format(format_guess(guess), number_correct))
 
 
-def display_truth_booth_guess_message(pair, correct):
+def display_truth_booth_guess_message(pair, correct, probability):
     result_message = "PERFECT MATCH" if correct else "NO MATCH"
-    print('guessing couple for truth booth: {0}\n{1}'.format(format_couple(pair), result_message))
+    print('TRUTH BOOTH guessing couple {0} with probability {1}\n{2}'.format(format_couple(pair), probability, result_message))
 
 
 def display_solution_message(solution, matches, week_no):

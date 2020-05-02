@@ -1,4 +1,5 @@
 from main.maths.factorials import double_factorial
+from main.display.probability_formatter import BiFormatter
 
 
 def display_match_up_guess_and_result_message(guess, number_correct):
@@ -7,7 +8,8 @@ def display_match_up_guess_and_result_message(guess, number_correct):
 
 def display_truth_booth_guess_message(pair, correct, probability):
     result_message = "PERFECT MATCH" if correct else "NO MATCH"
-    print('TRUTH BOOTH guessing couple {0} with probability {1}\n{2}'.format(format_couple(pair), probability, result_message))
+    print('TRUTH BOOTH guessing couple {0} with probability {1}\n{2}'.format(format_couple(pair), probability,
+                                                                             result_message))
 
 
 def display_solution_message(solution, matches, week_no):
@@ -28,8 +30,8 @@ def display_initial_number_of_scenarios(contestants):
     print("number of possible solutions is {0}".format(double_factorial(len(contestants) - 1)))
 
 
-def display_probabilities_in_grid(formatter, probabilities_hash, contestants):
-    print(formatter(probabilities_hash, contestants).printable_grid())
+def display_probabilities_in_grid(probabilities_hash, contestants):
+    print(BiFormatter(probabilities_hash, contestants).printable_grid())
 
 
 def format_guess(set_of_sets):
@@ -44,14 +46,14 @@ def format_dict(dict):
     return ", ".join([format_couple(pair) + ": " + str(p) for pair, p in dict.items()])
 
 
-def print_knowns_and_unknowns(matches, no_matches, unknowns):
+def print_current_knowledge(matches, no_matches, unknowns):
     print("current knowledge!")
     print("known matches are {0}".format(format_guess(matches)))
     print("known no matches are {0}".format(format_guess(no_matches)))
     print("unknowns are {0}".format(format_dict(unknowns)))
 
 
-def display_new_matches_and_no_matches(new_matches, new_no_matches):
+def display_new_knowledge(new_matches, new_no_matches):
     print("new derived matches: {0}".format(", ".join([format_couple(pair) for pair in new_matches])))
     print("new derived no_matches: {0}".format(", ".join([format_couple(pair) for pair in new_no_matches])))
 

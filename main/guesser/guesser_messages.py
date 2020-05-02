@@ -1,5 +1,6 @@
 from main.maths.factorials import double_factorial
 
+
 def display_match_up_guess_and_result_message(guess, number_correct):
     print("guessing for match up ceremony: {0}\n number correct is {1}".format(format_guess(guess), number_correct))
 
@@ -13,10 +14,6 @@ def display_solution_message(solution, matches, week_no):
     print("solution was {0}".format(format_guess(solution)))
     print("guessed solution {0}".format(format_guess(matches)))
     print("guessed in {0} weeks".format(week_no))
-
-
-def display_week(week_no):
-    print("week is {0}".format(week_no))
 
 
 def display_number_of_possibilities(season):
@@ -55,5 +52,6 @@ def display_new_matches_and_no_matches(new_matches, new_no_matches):
     print("new derived no_matches: {0}".format(", ".join([format_couple(pair) for pair in new_no_matches])))
 
 
-def display_solution(solution):
-    print("solution was {0}".format(format_guess(solution)))
+def display_start_of_week_info(week_no, solution):
+    print("week is {0}".format(week_no))
+    print("solution is {0}".format(format_guess(solution)))

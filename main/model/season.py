@@ -23,18 +23,25 @@ class Season(ABC):
     def is_bisexual_season(self):
         return type(self).__name__ == "BisexualSeason"
 
+    @abstractmethod
     def add_name(self,name):
         pass
 
+    @abstractmethod
     def add_updated_scenarios(self, new_scenarios):
         pass
 
+    @abstractmethod
+    def update_solved(self, solved):
+        pass
+
 class StraightSeason(Season):
-    def __init__(self, women, men, season_name=None, scenarios=None):
+    def __init__(self, women, men, season_name=None, scenarios=None, solved = False):
         self.women = women
         self.men = men
         self.scenarios = scenarios or self.create_scenarios()
         self.season_name = season_name
+        self.solved = solved
 
     def create_possible_pairings(self):
         return itertools.product(self.women, self.men)
@@ -46,7 +53,10 @@ class StraightSeason(Season):
         return StraightSeason(self.women, self.men, name, self.scenarios)
 
     def add_updated_scenarios(self, new_scenarios):
-        return StraightSeason(self.women, self.men, self.season_name, new_scenarios)
+        return StraightSeason(self.women, self.men, self.season_name, new_scenarios, self.solved)
+
+    def update_solved(self, solved):
+        return StraightSeason(self.women, self.men, self.season_name, self.scenarios, solved)
 
 
 def count_shared(scenario_1, scenario_2):
@@ -64,10 +74,11 @@ def couple_not_in_scenario(couple, scenario):
 
 
 class BisexualSeason(Season):
-    def __init__(self, contestants, season_name=None, scenarios = []):
+    def __init__(self, contestants, season_name=None, scenarios = [], solved = False):
         self.contestants = contestants
         self.scenarios = scenarios or self.create_scenarios()
         self.season_name = season_name
+        self.solved = solved
 
     def all_pairs(self, lst):
         if len(lst) < 2:
@@ -90,4 +101,8 @@ class BisexualSeason(Season):
         return BisexualSeason(self.contestants, name, self.scenarios)
 
     def add_updated_scenarios(self, new_scenarios):
-        return BisexualSeason(self.contestants, self.season_name, new_scenarios)
+        return BisexualSeason(self.contestants, self.season_name, new_scenarios, self.solved)
+
+    def update_solved(self, solved):
+        return BisexualSeason(self.contestants, self.season_name, self.scenarios, solved)
+

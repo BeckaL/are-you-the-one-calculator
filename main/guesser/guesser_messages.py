@@ -40,11 +40,15 @@ def format_couple(couple):
     return " + ".join(couple)
 
 
+def format_dict(dict):
+    return ", ".join([format_couple(pair) + ": " + str(p) for pair, p in dict.items()])
+
+
 def print_knowns_and_unknowns(matches, no_matches, unknowns):
     print("current knowledge!")
     print("known matches are {0}".format(format_guess(matches)))
     print("known no matches are {0}".format(format_guess(no_matches)))
-    print("unknowns are {0}".format(format_guess(unknowns)))
+    print("unknowns are {0}".format(format_dict(unknowns)))
 
 
 def display_new_matches_and_no_matches(new_matches, new_no_matches):

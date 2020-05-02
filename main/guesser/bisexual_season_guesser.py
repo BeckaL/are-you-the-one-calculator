@@ -13,16 +13,17 @@ class BisexualGuesser:
         self.initial_possible_pairings = None
         self.matches = set()
         self.no_matches = set()
-        self.unknowns = []
+        self.unknowns = {}
         self.calculator = calculator
         self.formatter = formatter
         self.guesser = guesser
 
     def run(self):
+        initial_prob = 0.07
         random.shuffle(self.controller.contestants)
         season = BisexualSeason(contestants=self.controller.contestants)
         self.initial_possible_pairings = season.create_possible_pairings()
-        self.unknowns = [frozenset(pair) for pair in self.initial_possible_pairings]
+        self.unknowns = {frozenset(pair):initial_prob for pair in self.initial_possible_pairings}
         display_initial_number_of_scenarios(season.contestants)
         return self.guess_until_solved(season, 1)
 
@@ -58,14 +59,14 @@ class BisexualGuesser:
         self.unknowns = unknowns
 
     def get_new_matches_no_matches_and_unknowns(self, probabilities_hash):
-        new_matches, new_no_matches, new_unknowns = set(), set(), []
+        new_matches, new_no_matches, new_unknowns = set(), set(), {}
         for (pair, probability) in probabilities_hash.items():
             if probability == 0 and frozenset(pair) not in self.no_matches:
                 new_no_matches.add(frozenset(pair))
             if probability == 1 and frozenset(pair) not in self.matches:
                 new_matches.add(frozenset(pair))
             elif 0 < probability < 1:
-                new_unknowns.append(frozenset(pair))
+                new_unknowns[(frozenset(pair))] = probability
         return new_matches, new_no_matches, new_unknowns
 
 

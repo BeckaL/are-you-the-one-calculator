@@ -82,9 +82,3 @@ class BisexualGuesser:
         self.matches.add(pair) if is_correct else self.no_matches.add(pair)
         return season.add_updated_scenarios(season.register_truth_booth(pair, is_correct))
 
-
-if __name__ == "__main__":
-    calculator = ProbabilityCalculator
-    controller = BisexualController()
-    guesser = BisexualGuesser(controller, calculator, BiFormatter, Highest_Probability_Guess_Generator())
-    guesser.run()

@@ -35,13 +35,25 @@ class Season(ABC):
     def update_solved(self, solved):
         pass
 
+    @abstractmethod
+    def update_confirmed_info(self, confirmed_matches, confirmed_no_matches):
+        pass
+
 class StraightSeason(Season):
-    def __init__(self, women, men, season_name=None, scenarios=None, solved = False):
+    def __init__(self, women, men, season_name=None, scenarios=None, solved=False, confirmed_matches=set(), confirmed_no_matches=set()):
+        if confirmed_matches is None:
+            confirmed_matches = set()
+        print("in init")
+        print(confirmed_no_matches)
+        print(solved)
         self.women = women
         self.men = men
         self.scenarios = scenarios or self.create_scenarios()
         self.season_name = season_name
         self.solved = solved
+        self.confirmed_matches = confirmed_matches
+        self.confirmed_no_matches = confirmed_no_matches
+
 
     def create_possible_pairings(self):
         return itertools.product(self.women, self.men)
@@ -50,13 +62,16 @@ class StraightSeason(Season):
         return [set(zip(woman, self.men)) for woman in itertools.permutations(self.women, len(self.men))]
 
     def add_name(self,name):
-        return StraightSeason(self.women, self.men, name, self.scenarios)
+        return StraightSeason(self.women, self.men, name, self.scenarios, self.solved, self.confirmed_matches, self.confirmed_no_matches)
 
     def add_updated_scenarios(self, new_scenarios):
-        return StraightSeason(self.women, self.men, self.season_name, new_scenarios, self.solved)
+        return StraightSeason(self.women, self.men, self.season_name, new_scenarios, self.solved, self.confirmed_matches, self.confirmed_no_matches)
 
     def update_solved(self, solved):
-        return StraightSeason(self.women, self.men, self.season_name, self.scenarios, solved)
+        return StraightSeason(self.women, self.men, self.season_name, self.scenarios, solved, self.confirmed_matches, self.confirmed_no_matches)
+
+    def update_confirmed_info(self, confirmed_matches, confirmed_no_matches):
+        return StraightSeason(self.women, self.men, self.season_name, self.scenarios, self.solved, confirmed_matches, confirmed_no_matches)
 
 
 def count_shared(scenario_1, scenario_2):
@@ -74,11 +89,13 @@ def couple_not_in_scenario(couple, scenario):
 
 
 class BisexualSeason(Season):
-    def __init__(self, contestants, season_name=None, scenarios = [], solved = False):
+    def __init__(self, contestants, season_name=None, scenarios = [], solved = False, confirmed_matches = set(), confirmed_no_matches = set()):
         self.contestants = contestants
         self.scenarios = scenarios or self.create_scenarios()
         self.season_name = season_name
         self.solved = solved
+        self.confirmed_matches = confirmed_matches
+        self.confirmed_no_matches = confirmed_no_matches
 
     def all_pairs(self, lst):
         if len(lst) < 2:
@@ -105,4 +122,7 @@ class BisexualSeason(Season):
 
     def update_solved(self, solved):
         return BisexualSeason(self.contestants, self.season_name, self.scenarios, solved)
+
+    def update_confirmed_info(self, confirmed_matches, confirmed_no_matches):
+        return BisexualSeason(self.contestants, self.season_name, self.scenarios, self.solved, confirmed_matches, confirmed_no_matches)
 

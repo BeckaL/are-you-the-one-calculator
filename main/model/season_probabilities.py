@@ -22,5 +22,3 @@ class ProbabilityCalculator():
         return {pair:  initial_universal_probability for pair in self.possible_pairings}
 
 
-
-

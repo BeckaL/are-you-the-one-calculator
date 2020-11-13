@@ -126,6 +126,30 @@ def test_registers_a_weekly_guess_for_a_bisexual_season_regardless_of_order():
         expected = [{('A', 'B'), ('C', 'D')}]
         assert (check_scenario_equality(actual, expected))
 
+def test_adds_a_confirmed_no_match_to_a_straight_season():
+    season = StraightSeason(['A', 'B', 'C'], ['D', 'E', 'F'])
+    new_season = season.update_confirmed_info(confirmed_matches=set(), confirmed_no_matches={('B', 'E')})
+    assert new_season.confirmed_matches == season.confirmed_matches
+    assert new_season.confirmed_no_matches == {('B', 'E')}
+
+def test_adds_a_confirmed_no_match_to_a_straight_season():
+    season = StraightSeason(['A', 'B', 'C'], ['D', 'E', 'F'])
+    new_season = season.update_confirmed_info(confirmed_matches={('B', 'E')}, confirmed_no_matches=set())
+    assert new_season.confirmed_no_matches == season.confirmed_no_matches
+    assert new_season.confirmed_matches == {('B', 'E')}
+
+def test_adds_a_confirmed_no_match_to_a_bisexual_season():
+    season = BisexualSeason(['A', 'B', 'C', 'D', 'E', 'F'])
+    new_season = season.update_confirmed_info(confirmed_matches=set(), confirmed_no_matches={('B', 'E')})
+    assert new_season.confirmed_matches == season.confirmed_matches
+    assert new_season.confirmed_no_matches == {('B', 'E')}
+
+def test_adds_a_confirmed_no_match_to_a_straight_season():
+    season = BisexualSeason(['A', 'B', 'C', 'D', 'E', 'F'])
+    new_season = season.update_confirmed_info(confirmed_matches={('B', 'E')}, confirmed_no_matches=set())
+    assert new_season.confirmed_no_matches == season.confirmed_no_matches
+    assert new_season.confirmed_matches == {('B', 'E')}
+
 
 def check_scenario_equality(actual, expected):
     return len([el for el in actual if el in expected]) == len(expected) and len(expected) == len(actual)

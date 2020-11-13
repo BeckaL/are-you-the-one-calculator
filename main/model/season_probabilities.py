@@ -13,6 +13,10 @@ class ProbabilityCalculator():
     def number_of_scenarios_for_pair(self, a, b):
         return len([scenario for scenario in self.current_scenarios if (a, b) in scenario or (b, a) in scenario])
 
+    def calculate_initial_probabilities_straight_season(self, no_of_women):
+        initial_universal_probability = round(1 / no_of_women, 2)
+        return {pair:  initial_universal_probability for pair in self.possible_pairings}
+
     def calculate_initial_probabilities_bi_season(self, no_of_contestants):
         initial_universal_probability = round(1 / (no_of_contestants - 1), 2)
         return {pair:  initial_universal_probability for pair in self.possible_pairings}

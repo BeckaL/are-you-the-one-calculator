@@ -31,7 +31,6 @@ def test_initial_season_display():
     assert (input_output.output[:5] ==
             [welcome_message, load_confirmation, scenarios_introductory_text, initial_scenario_output,
              initial_probability_table])
-    _clean_up_files("testBiSeason")
 
 
 def test_display_after_truth_booth():

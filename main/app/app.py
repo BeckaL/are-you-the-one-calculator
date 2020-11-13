@@ -38,14 +38,14 @@ class App():
         names = self.get_name_input()
         season = StraightSeason(*names)
         self.display_scenarios(season)
-        self.display_probabilities(season)
+        self.display_initial_probabilities(season)
         return self.save(season)
 
     def create_bi_season(self):
         names = self.get_bi_contestants()
         season = BisexualSeason(names)
         self.display_scenarios(season)
-        self.display_probabilities(season)
+        self.display_initial_probabilities(season)
         return self.save(season)
 
     def run(self, season):
@@ -125,6 +125,18 @@ class App():
             formatter = BiFormatter(hash, season.contestants)
         else:
             formatter = Formatter(hash, season.women, season.men)
+        self.input_output.print(formatter.printable_grid())
+
+    def display_initial_probabilities(self, season):
+        probabilities_calculator = ProbabilityCalculator(season.create_possible_pairings(), season.scenarios)
+        if season.is_bisexual_season():
+            formatter = BiFormatter(
+                probabilities_calculator.calculate_initial_probabilities_bi_season(len(season.contestants)),
+                season.contestants)
+        else:
+            formatter = Formatter(
+                probabilities_calculator.calculate_initial_probabilities_straight_season(len(season.women)), season.women,
+                season.men)
         self.input_output.print(formatter.printable_grid())
 
     def format_scenarios(self, scenarios):

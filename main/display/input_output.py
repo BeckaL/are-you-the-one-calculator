@@ -19,3 +19,14 @@ class InputOutputForTest():
         return self.instructions.pop(0)
 
 
+class InputForTestWithStdOut:
+    def __init__(self, instructions):
+        self.output = []
+        self.instructions = instructions
+
+    def print(self, msg):print(msg)
+
+    def input(self, msg):
+        print(msg)
+        print(self.instructions)
+        return self.instructions.pop(0)

@@ -1,6 +1,5 @@
 from main.model.season import *
 import glob
-import re
 
 class Loader():
     def __init__(self, season_name):

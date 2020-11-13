@@ -24,20 +24,21 @@ class Formatter():
         return name + " " * padding_required
 
     def printable_grid(self):
-        top_row = [self.top_left_space() + "".join([self.pad_contestant_name_in_header(c) for c in self.women])]
+        top_row = [self.top_left_space() + "".join([self.pad_contestant_name_in_header(c) for c in self.men])]
         probability_rows = [self.probabilities_for_woman(w) for w in self.women]
-        other_rows = [[self.pad_row_label(self.men[i])] + probability_rows[i] for i in
+        other_rows = [[self.pad_row_label(self.women[i])] + probability_rows[i] for i in
                       range(len(self.men))]
         printable_other_rows = ["  ".join(row) for row in other_rows]
         rows = top_row + printable_other_rows
         return "\n".join(rows)
 
     def probabilities_for_woman(self, woman):
-        return list(map(lambda man: self.pad_digit(self.probabilities_hash[(woman, man)], len(man)), self.men))
+        return [self.pad_digit(self.probabilities_hash[(woman, man)], len(man)) for
+                man in self.men]
 
     def pad_digit(self, n, length_of_name):
-        left_padding = math.floor((length_of_name - 4)/2) * " "
-        right_padding = math.ceil((length_of_name - 4)/2) * " "
+        left_padding = math.floor((length_of_name - 4)/2) * "  "
+        right_padding = math.ceil((length_of_name - 4)/2) * "  "
         string_n = str(n)
         no_of_spaces = 5 - len(string_n)
         return left_padding + string_n + (" " * no_of_spaces) + right_padding

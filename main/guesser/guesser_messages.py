@@ -2,8 +2,13 @@ from main.maths.factorials import double_factorial
 from main.display.probability_formatter import BiFormatter
 
 
-def display_match_up_guess_and_result_message(guess, number_correct):
-    print("guessing for match up ceremony: {0}\n number correct is {1}".format(format_guess(guess), number_correct))
+def display_match_up_guess_and_result_message(guess, number_correct, current_probabilities):
+    guess_with_probabilities = {pair:percentage for pair, percentage in current_probabilities.items() if pair in guess}
+    print("guess is {}".format(guess))
+    print("probabilities hash is".format(current_probabilities.items()))
+    print("probabilities hash is".format(current_probabilities.items()))
+    print("guess with probabilites is {0}".format(guess_with_probabilities))
+    print("guessing for match up ceremony: {0}\n number correct is {1}".format(format_dict(guess_with_probabilities), number_correct))
 
 
 def display_truth_booth_guess_message(pair, correct, probability):

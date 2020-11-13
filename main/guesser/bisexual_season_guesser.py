@@ -64,7 +64,7 @@ class BisexualGuesser:
     def match_up_ceremony(self, guess, season):
         number_correct = self.controller.number_correct_in_guess(guess)
         solved = number_correct == len(self.controller.contestants) / 2
-        display_match_up_guess_and_result_message(guess, number_correct)
+        display_match_up_guess_and_result_message(guess, number_correct, self.current_probability_hash.probabilities)
         return season.add_updated_scenarios(season.register_guess(guess, number_correct)).update_solved(solved)
 
     def truth_booth_result(self, pair, season):

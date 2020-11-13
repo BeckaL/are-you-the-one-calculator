@@ -20,9 +20,9 @@ def test_initial_season_display():
     scenarios_introductory_text = "scenarios are"
     initial_scenario_output = '1: A + C, B + D\n' \
                               '2: A + D, B + C'
-    initial_probability_table = '   A      B\n' \
-                                'C  0.5    0.5  \n' \
-                                'D  0.5    0.5  '
+    initial_probability_table = '    C      D     \n' \
+                                'A  0.5    0.5  \n' \
+                                'B  0.5    0.5  '
 
     assert (input_output.output[:5] ==
             [welcome_message, load_confirmation, scenarios_introductory_text, initial_scenario_output,
@@ -32,9 +32,9 @@ def test_initial_season_display():
 def test_display_after_truth_booth():
     scenarios_introductory_text = "scenarios are"
     scenario_output_after_truth_booth = '1: A + D, B + C'
-    probability_table_after_truth_booth = '   A      B\n' \
-                                          'C  0.0    1.0  \n' \
-                                          'D  1.0    0.0  '
+    probability_table_after_truth_booth = '    C      D     \n' \
+                                          'A  0.0    1.0  \n' \
+                                          'B  1.0    0.0  '
     assert (input_output.output[5:8] ==
             [scenarios_introductory_text, scenario_output_after_truth_booth, probability_table_after_truth_booth])
 
